@@ -1,15 +1,21 @@
 export function saveBlockSubjects(onSave) {
   const subjects = {};
   const colors = {};
+  const classes = {};
 
   for (let blockNumber = 1; blockNumber <= 7; blockNumber++) {
     const input = document.getElementById(`block${blockNumber}_textInput`);
     const colorInput = document.getElementById(`block${blockNumber}_colourPicker`);
+    const classInput = document.getElementById(`block${blockNumber}_classInput`);
     subjects[`BLOCK-${blockNumber}`] = input.value;
     colors[`BLOCK-${blockNumber}`] = colorInput.value;
+    classes[`BLOCK-${blockNumber}`] = classInput.value
+      .split(",")
+      .map((classroom) => classroom.trim())
+      .filter(Boolean);
   }
 
-  onSave({ subjects, colors });
+  onSave({ subjects, colors, classes });
 
   document.getElementById("editOverlay").style.display = "none";
 }

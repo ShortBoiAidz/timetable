@@ -87,6 +87,17 @@ td {
   min-width: 0;
 }
 
+.blockSubject,
+.blockClassroom {
+  display: block;
+}
+
+.blockClassroom {
+  margin-top: 0.15rem;
+  font-size: 0.85em;
+  opacity: 0.85;
+}
+
 .headerButton {
   position: fixed;
   top: 0.75rem;

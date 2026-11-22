@@ -14,6 +14,7 @@ import {
   BLOCK_CELLS,
   BLOCK_COLORS,
   BLOCK_SUBJECTS,
+  BLOCK_CLASSES,
   THEME_DEFAULTS,
 } from "../scripts/core/constants.js";
 
@@ -30,6 +31,21 @@ export function Timetable() {
   const [blockSubjects, setBlockSubjects] = useState(() =>
     loadStoredObject("timetableSubjects", BLOCK_SUBJECTS)
   );
+  const [blockClasses, setBlockClasses] = useState(() => {
+    const storedClasses = loadStoredObject("timetableClasses", BLOCK_CLASSES);
+
+    return Object.fromEntries(
+      Object.entries(storedClasses).map(([block, classrooms]) => [
+        block,
+        Array.isArray(classrooms)
+          ? classrooms
+          : String(classrooms || "")
+              .split(",")
+              .map((classroom) => classroom.trim())
+              .filter(Boolean),
+      ])
+    );
+  });
   const [blockColors, setBlockColors] = useState(() =>
     loadStoredObject("timetableColors", BLOCK_COLORS)
   );
@@ -41,11 +57,13 @@ export function Timetable() {
     changeColours(settings);
   }, [settings]);
 
-  function saveEditChoices({ subjects, colors }) {
+  function saveEditChoices({ subjects, colors, classes }) {
     setBlockSubjects(subjects);
     setBlockColors(colors);
+    setBlockClasses(classes);
     localStorage.setItem("timetableSubjects", JSON.stringify(subjects));
     localStorage.setItem("timetableColors", JSON.stringify(colors));
+    localStorage.setItem("timetableClasses", JSON.stringify(classes));
   }
 
   function saveThemeChoices(theme) {
@@ -81,9 +99,14 @@ export function Timetable() {
                 const cellId = `p${period}-${day.toLowerCase()}`;
                 const block = Object.keys(BLOCK_CELLS).find((key) => BLOCK_CELLS[key].includes(cellId));
 
+                const blockDetails = checkBlock(cellId, blockSubjects, blockClasses);
+
                 return (
                   <td id={cellId} key={day} style={block ? { backgroundColor: blockColors[block] } : undefined}>
-                    {checkBlock(cellId, blockSubjects)}
+                    <span className="blockSubject">{blockDetails.subject}</span>
+                    {blockDetails.classroom && (
+                      <span className="blockClassroom">{blockDetails.classroom}</span>
+                    )}
                   </td>
                 );
               })}
@@ -96,7 +119,7 @@ export function Timetable() {
     </div>
     {/* !SECTION */}
 
-    <EditOverlay subjects={blockSubjects} colors={blockColors} onSave={saveEditChoices}/>
+    <EditOverlay subjects={blockSubjects} colors={blockColors} classes={blockClasses} onSave={saveEditChoices}/>
     <SettingsOverlay settings={settings} onSave={saveThemeChoices}/>
 
     </>

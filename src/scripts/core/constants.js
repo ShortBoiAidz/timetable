@@ -57,6 +57,16 @@ export const BLOCK_CELLS = {
   "BLOCK-7": BLOCK_7,
 };
 
+export const BLOCK_CLASSES = {
+  "BLOCK-1": ["EG36", "E109", "E225"],
+  "BLOCK-2": ["AG05"],
+  "BLOCK-3": ["E234"],
+  "BLOCK-4": ["E233"],
+  "BLOCK-5": ["C236"],
+  "BLOCK-6": ["E235"],
+  "BLOCK-7": ["E227"],
+}
+
 export const BLOCK_COLORS = {
   "BLOCK-1": "#fca5a5",
   "BLOCK-2": "#fdba74",
