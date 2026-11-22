@@ -1,0 +1,77 @@
+@media (max-width: 600px) {
+  body {
+    padding: 4.25rem 0.35rem 0.5rem;
+  }
+
+  .timetableViewport {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  table {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #period-column-header,
+  .subject th {
+    width: 3.8rem;
+  }
+
+  table caption h1 {
+    font-size: clamp(1.15rem, 8vw, 2.5rem);
+  }
+
+  th,
+  td {
+    font-size: clamp(0.22rem, 2.8vw, 0.95rem);
+  }
+  th {
+    text-wrap: nowrap;
+  }
+}
+
+@media (max-width: 450px) {
+  th * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
+  }
+  td * {
+    font-size: 10px;
+    text-wrap: balance;
+  }
+  tr *:not(button) {
+    font-size: 10px;
+    text-wrap: balance;
+  }
+  #editButton {
+    padding: 1em !important;
+  }
+}
+
+@media print {
+  body {
+    padding: 0;
+    background: white;
+  }
+
+  button,
+  .headerButton,
+  .editOverlay,
+  #settingsOverlay {
+    display: none !important;
+  }
+
+  .timetableViewport {
+    width: 100%;
+    overflow: visible;
+  }
+
+  table {
+    min-width: 0;
+  }
+}
