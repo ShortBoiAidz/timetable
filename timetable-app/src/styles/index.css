@@ -2,59 +2,76 @@
 
 :root {
   --border: 2px solid black;
+  --radialGradient: radial-gradient(rgb(78, 143, 242), rgb(184, 179, 252));
+  --overlayGradient: radial-gradient(rgb(43, 127, 255), rgb(194, 122, 255));
+  --linearGradient: linear-gradient(145deg, rgb(154, 203, 243), rgb(146, 146, 245));
+  --buttonBorder: rgb(138, 116, 248);
 }
-
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  cursor: default;
 }
 
-
+html,
+body,
+#root {
+  min-height: 100%;
+}
 
 body {
-  margin: 0;
-  padding: 10em;
-
-  min-width: 100dvw;
+  min-width: 320px;
   min-height: 100dvh;
-
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-
   align-items: center;
+  justify-content: center;
+  padding: 4.5rem clamp(0.5rem, 2vw, 1.25rem) 1rem;
+  font-family: consolas, monospace;
+  background: var(--radialGradient);
+}
 
-  font-family: consolas;
-
-  background: radial-gradient(rgb(78, 143, 242), rgb(184, 179, 252));
+#root {
+  width: 100%;
 }
 
 h1 {
-  margin-top: 1rem;
+  margin: 0;
+}
+
+.timetableViewport {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
 }
 
 table {
+  width: 100%;
+  min-width: 680px;
   border: var(--border);
   border-collapse: collapse;
-  margin: 1em;
-  width: calc(100vw - 2em);
+  margin: 0;
+  table-layout: fixed;
 }
 
 table > caption {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 tr {
-  height: 3.5rem;
+  height: clamp(3rem, 8dvh, 4.25rem);
 }
 
 th,
 td {
   border: var(--border);
-  padding: 0.5rem;
+  padding: clamp(0.25rem, 1.2vw, 0.5rem);
   text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .dayTitles {
@@ -70,60 +87,108 @@ td {
   min-width: 0;
 }
 
-button#saveChanges {
-  width: max-content;
-  position: absolute;
+.headerButton {
+  position: fixed;
+  top: 0.75rem;
+  z-index: 20;
+  width: fit-content;
+  height: 2.75rem;
+  margin: 0;
+  padding: 0.35rem;
+  border-radius: 0.5rem;
+}
 
-  top: 0;
-  right: 0;
-  margin: 2em;
+.headerButton.left-0 {
+  left: 0.75rem;
+}
+
+.headerButton.right-0 {
+  right: 0.75rem;
+}
+
+.headerButton img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 button {
-  background: linear-gradient(145deg, rgb(154, 203, 243), rgb(146, 146, 245));
-
-  padding: 0.5em 1em 0.5em 1em;
-
-  border: 3px outset rgb(138, 116, 248);
-  border-radius: 25%;
-
-  width: stretch;
-  height: auto;
-
+  background: var(--linearGradient);
+  padding: 0.5em 1em;
+  border: 3px outset var(--buttonBorder);
+  border-radius: 0.5rem;
+  width: fit-content;
   cursor: pointer;
-  transition: all 0.2s;
+  min-height: 2.5rem;
+  transition: transform 0.15s, filter 0.15s;
+  text-wrap: nowrap;
+
+  && * {
+    cursor: pointer;
+  }
 }
 
 button:active {
-  transform: translateY(3px);
+  transform: translateY(2px);
 }
 
-.editOverlay {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  top: 0;
-  left: 0;
-
-  padding: 1em;
-  margin: 1em;
-
-  width: stretch;
-  height: stretch;
+#editButton {
+  min-height: 2.25rem;
+  padding: 0.25rem 0.65rem;
 }
 
-.editBlockInput {
-  display: flex;
-  flex-direction: row;
+@media (max-width: 600px) {
+  body {
+    padding: 4.25rem 0.35rem 0.5rem;
+  }
 
-  justify-content: space-evenly;
-  gap: 1rem;
+  .timetableViewport {
+    width: 100%;
+    overflow-x: hidden;
+  }
 
-  margin: 10px;
+  table {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #period-column-header,
+  .subject th {
+    width: 3.8rem;
+  }
+
+  table caption h1 {
+    font-size: clamp(1.15rem, 8vw, 2.5rem);
+  }
+
+  th,
+  td {
+    font-size: clamp(0.22rem, 2.8vw, 0.95rem);
+  }
+  th {
+    text-wrap: nowrap;
+  }
 }
 
-input {
-  text-align: center;
+@media print {
+  body {
+    padding: 0;
+    background: white;
+  }
+
+  button,
+  .headerButton,
+  .editOverlay,
+  #settingsOverlay {
+    display: none !important;
+  }
+
+  .timetableViewport {
+    width: 100%;
+    overflow: visible;
+  }
+
+  table {
+    min-width: 0;
+  }
 }
