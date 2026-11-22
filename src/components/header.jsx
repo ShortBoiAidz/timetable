@@ -7,8 +7,8 @@ export function Header() {
 
   return(
     <>
-      <button id="print" className="button headerButton left-0" onClick={() => {print()}}>Print</button>
-      <button className="button headerButton right-0" onClick={() => {openSettings()}}>
+      <button id="print" className="button headerButton left-3" onClick={() => {print()}}>Print</button>
+      <button className="button headerButton -right-3" onClick={() => {openSettings()}}>
         <img src={settingsIcon}/>
       </button>
     </>

@@ -1,0 +1,84 @@
+/* SECTION - Main layout */
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  background: var(--radialGradient);
+
+  min-width: 320px;
+  min-height: 100vh;
+
+  font-family: consolas, monospace;
+
+  padding: 4.5rem clamp(0.5rem, 2vw, 1.25rem) 1rem;
+}
+
+#root {
+  width: 100%;
+}
+/* !SECTION */
+
+
+/* SECTION - Typography */
+h1 {
+  margin: 0;
+}
+/* !SECTION */
+
+
+/* SECTION - Base components */
+button {
+  background: var(--linearGradient);
+
+  padding: 0.5em 1em;
+  text-wrap: nowrap;
+
+  border: 3px outset var(--buttonBorder);
+  border-radius: 0.5rem;
+
+  width: fit-content;
+  min-height: 2.5rem;
+
+  cursor: pointer;
+
+  && * {
+    cursor: pointer;
+  }
+}
+
+table {
+  width: 100%;
+  min-width: 680px;
+
+  border: var(--border);
+  border-collapse: collapse;
+
+  margin: 0;
+  table-layout: fixed;
+
+  && > caption {
+    margin-bottom: 0.75rem;
+  }
+}
+
+tr {
+  height: clamp(3rem, 8dvh, 4.25rem);
+}
+
+th,
+td {
+  border: var(--border);
+  padding: clamp(0.25rem, 1.2vw, 0.5rem);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+/* !SECTION */
