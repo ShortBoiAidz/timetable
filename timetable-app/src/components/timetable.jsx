@@ -17,10 +17,25 @@ import {
   THEME_DEFAULTS,
 } from "../scripts/core/constants.js";
 
+function loadStoredObject(key, fallback) {
+  try {
+    const stored = localStorage.getItem(key);
+    return stored ? { ...fallback, ...JSON.parse(stored) } : { ...fallback };
+  } catch {
+    return { ...fallback };
+  }
+}
+
 export function Timetable() {
-  const [blockSubjects, setBlockSubjects] = useState({ ...BLOCK_SUBJECTS });
-  const [blockColors, setBlockColors] = useState({ ...BLOCK_COLORS });
-  const [settings, setSettings] = useState({ ...THEME_DEFAULTS });
+  const [blockSubjects, setBlockSubjects] = useState(() =>
+    loadStoredObject("timetableSubjects", BLOCK_SUBJECTS)
+  );
+  const [blockColors, setBlockColors] = useState(() =>
+    loadStoredObject("timetableColors", BLOCK_COLORS)
+  );
+  const [settings, setSettings] = useState(() =>
+    loadStoredObject("timetableSettings", THEME_DEFAULTS)
+  );
 
   useEffect(() => {
     changeColours(settings);
@@ -29,6 +44,13 @@ export function Timetable() {
   function saveEditChoices({ subjects, colors }) {
     setBlockSubjects(subjects);
     setBlockColors(colors);
+    localStorage.setItem("timetableSubjects", JSON.stringify(subjects));
+    localStorage.setItem("timetableColors", JSON.stringify(colors));
+  }
+
+  function saveThemeChoices(theme) {
+    setSettings(theme);
+    localStorage.setItem("timetableSettings", JSON.stringify(theme));
   }
 
   return(
@@ -75,7 +97,7 @@ export function Timetable() {
     {/* !SECTION */}
 
     <EditOverlay subjects={blockSubjects} colors={blockColors} onSave={saveEditChoices}/>
-    <SettingsOverlay settings={settings} onSave={setSettings}/>
+    <SettingsOverlay settings={settings} onSave={saveThemeChoices}/>
 
     </>
   );

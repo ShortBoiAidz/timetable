@@ -118,10 +118,14 @@ button {
   border: 3px outset var(--buttonBorder);
   border-radius: 0.5rem;
   width: fit-content;
-  min-height: 2.5rem;
   cursor: pointer;
+  min-height: 2.5rem;
   transition: transform 0.15s, filter 0.15s;
   text-wrap: nowrap;
+
+  && * {
+    cursor: pointer;
+  }
 }
 
 button:active {
